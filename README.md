@@ -4,8 +4,8 @@ A Model Context Protocol (MCP) server that provides real-time US weather alerts 
 
 ## Demo
 
-![Weather Alerts](assets/alerts.png)
-![Weather Forecast](assets/forecast.png)
+![Weather Alerts](assets/alert.jpg)
+![Weather Forecast](assets/forecast.jpg)
 
 ## Tools
 
