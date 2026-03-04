@@ -20,7 +20,7 @@ async def make_nws_request(url: str) -> dict[str, Any] | None:
             response.raise_for_status()
             return response.json()
         except Exception:
-            return None
+            return "An exception occurred while fetching data from the NWS API. Please try again later."
 
 
 def format_alert(feature: dict) -> str:
@@ -144,11 +144,11 @@ async def get_hourly_forecast(latitude: float, longitude: float) -> str:
     forecasts = []
     for period in periods[:12]:  # Only show next 12 hours
         forecast = f"""
-{period["startTime"][11:16]}:
-Temperature: {period["temperature"]}°{period["temperatureUnit"]}
-Wind: {period["windSpeed"]} {period["windDirection"]}
-Conditions: {period["shortForecast"]}
-"""
+            {period["startTime"]}:
+            Temperature: {period["temperature"]}°{period["temperatureUnit"]}
+            Wind: {period["windSpeed"]} {period["windDirection"]}
+            Conditions: {period["shortForecast"]}
+            """
         forecasts.append(forecast)
 
     return "\n---\n".join(forecasts)
