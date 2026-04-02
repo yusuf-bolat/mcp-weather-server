@@ -31,3 +31,35 @@ A Model Context Protocol (MCP) server that provides real-time US weather alerts 
   }
 }
 ```
+
+## Slack Chatbot Setup
+
+Use this if you want Claude + weather tools inside Slack.
+
+1. In your Slack app, ensure these are enabled:
+- Bot scopes: `app_mentions:read`, `chat:write`, `channels:history`, `im:history`
+- Events: `app_mention`, `message.im`
+- Socket Mode ON with an app-level token (`connections:write`)
+
+2. Create env file from template:
+
+```bash
+cp .env.example .env
+```
+
+3. Fill `.env` with your real values:
+- `SLACK_BOT_TOKEN` (xoxb...)
+- `SLACK_APP_TOKEN` (xapp...)
+- `SLACK_SIGNING_SECRET`
+- `ANTHROPIC_API_KEY`
+
+4. Install dependencies and run:
+
+```bash
+uv sync
+uv run slack_bot.py
+```
+
+5. In Slack:
+- Mention the bot in a channel: `@MCP-NWS weather alerts for TX`
+- Or DM the bot: `forecast for 37.7749, -122.4194`

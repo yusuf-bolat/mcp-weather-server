@@ -20,7 +20,7 @@ async def make_nws_request(url: str) -> dict[str, Any] | None:
             response.raise_for_status()
             return response.json()
         except Exception:
-            return "An exception occurred while fetching data from the NWS API. Please try again later."
+            return None
 
 
 def format_alert(feature: dict) -> str:
@@ -90,31 +90,6 @@ Forecast: {period["detailedForecast"]}
         forecasts.append(forecast)
 
     return "\n---\n".join(forecasts)
-
-
-@mcp.tool()
-async def get_hourly_forecast(latitude: float, longitude: float) -> str:
-    points_url = f"{NWS_API_BASE}/points/{latitude},{longitude}"
-    points_data = await make_nws_request(points_url)
-
-    if not points_data:
-        return "Unable to fetch forecast data for this location."
-    forecast_hourly_url = points_data["properties"]["forecastHourly"]
-    forecast_hourly_data = await make_nws_request(forecast_hourly_url)
-
-    if not forecast_hourly_data:
-        return "Unable to fetch detailed hourly forecast."
-    periods = forecast_hourly_data["properties"]["periods"]
-    forecasts_hourly = []
-    for period in periods[:12]:  # Show next 12 hours
-        forecast = f"""{period["startTime"]}:
-            Temperature: {period["temperature"]}°{period["temperatureUnit"]}
-            Wind: {period["windSpeed"]} {period["windDirection"]}
-            Forecast: {period["detailedForecast"]}
-        """
-        forecasts_hourly.append(forecast)
-
-    return "\n---\n".join(forecasts_hourly)
 
 
 @mcp.tool()
